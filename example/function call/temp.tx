@@ -1,0 +1,15 @@
+
+/* ≤Œ ˝À≥–Ú∏„¥Ì¡À,ﬁœﬁŒ */
+function two(var a){
+	print("two function",a);
+	//print(a);
+}
+function one(var a){
+	print("one function",a);
+	//print(a);
+	two(1);
+}
+function main(){
+	print("main function");
+	one(1);
+}

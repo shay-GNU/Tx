@@ -1,0 +1,8 @@
+function main(){
+	print(1);
+	goto end;
+	print(2);
+	end:
+	print("Ìø¹ý2");
+	print(3.0e4);
+}
