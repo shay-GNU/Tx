@@ -2,8 +2,7 @@
 #include "txc.h"
 #include "lex.h"
 
-TX_FUNC void *tx_realloc(void *ptr, unsigned long size)
-{
+TX_FUNC void *tx_realloc(void *ptr, unsigned long size){
     void *ptr1;
     ptr1 = realloc(ptr, size);
     if (!ptr1 && size)
@@ -241,13 +240,13 @@ void tx_open_bf(tx_Complie *s1, const char *filename, int initlen){
     bf->buf_end[0] = EOF;
     pstrcpy(bf->filename, sizeof(bf->filename), filename);
     bf->line = 1;
-    bf->fd = -1;
+    bf->fd = NULL;
     bf->prev = file;
     file = bf;
 }
 
-int tx_open(tx_Complie *s, const char *filename){
-	int fd = open(filename, O_RDONLY | O_BINARY);
+FILE *tx_open(tx_Complie *s, const char *filename){
+	FILE *fd = fopen(filename, "rb");
 	
     tx_open_bf(s, filename, 0);
 
@@ -261,7 +260,7 @@ int tx_open(tx_Complie *s, const char *filename){
 
 void tx_read(BufferedFile *bf){
     int len;
-	len = read(bf->fd, bf->buffer, IO_BUF_SIZE);
+	len = fread(bf->buffer, 1, IO_BUF_SIZE, bf->fd);
 	bf->buf_ptr = bf->buffer;
 	bf->buf_end = bf->buffer + IO_BUF_SIZE;
 	bf->buf_end[0] = (char)EOF;
@@ -273,7 +272,9 @@ void tx_read(BufferedFile *bf){
 #include "out.c"
 
 TX_FUNC int tx_complie(tx_Complie *s){
-	tx_open(s, s->filename);
+	
+    if(!tx_open(s, s->filename))
+        tx_error("file not open");
     tx_read(file);
     next();
 

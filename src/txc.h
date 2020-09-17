@@ -13,7 +13,7 @@
 typedef struct BufferedFile {
     char *buf_ptr;
     char *buf_end;
-    int fd;
+    FILE *fd;
     struct BufferedFile *prev;
     int line;    
     char filename[1024];    

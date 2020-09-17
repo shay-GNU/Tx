@@ -25,7 +25,7 @@ int handle_eob(void)
     int len;
     if (bf->buf_ptr >= bf->buf_end) {
         if (bf->fd >= 0) {
-            len = read(bf->fd, bf->buffer, IO_BUF_SIZE);
+            len = fread(bf->buffer, 1, IO_BUF_SIZE, bf->fd);
             if (len < 0)
                 len = 0;
         } else {

@@ -1,6 +1,6 @@
 #include "tx.h"
 #include "txc.h"
-
+#include "txclib.c"
 
 
 static const char tx_help[] =
