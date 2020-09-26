@@ -148,9 +148,6 @@ int type_size(Type *t, int *a);
 void initializer(Type *type, int c, funcInfo *sec);
 
 
-
-
-
 typedef struct Symbol{
     union{
         int sym_scope;              
@@ -161,10 +158,13 @@ typedef struct Symbol{
     int r;						
     int c;						
     Type type;					
-    struct Symbol *next;		
+    struct Symbol *next;
+    struct Symbol *prev;
     struct Symbol *prev_tok;	
     struct funcInfo *func;
+    
 } Symbol;
+
 Symbol *var_sym_put(Type *type, int r, int v, int addr);
 
 #pragma push(1)
@@ -200,22 +200,18 @@ void declarator(Type *type, int *v, int *force_align);
 void operand_swap();
 void store0_1();
 
+Symbol  *global_sym_stack,		
+	    *local_sym_stack,		
+	    *global_label_stack;
+Symbol *sym_free_first;
+#define SYM_POOL_NB 1024 * 4
+int pools;
 
-typedef struct Stack {
-	void **base;	
-	void **top;		
-	int stacksize;	
-} Stack;
-
-Stack global_sym_stack,		
-	  local_sym_stack,		
-	  global_label_stack;	
-
-void stack_init(Stack *stack,int initsize);
 Symbol *sym_search(int v);
 Symbol *func_sym_push(int v, Type *type);
+Symbol *sym_push2(Symbol **ps, int v, int t, int c);
 Symbol *sym_push(int v, Type *type, int r, int c);
-
+void sym_pop(Symbol **ptop, Symbol *b, int keep);
 
 
 void emitABC(int opcode, int a, int b, int c) ;

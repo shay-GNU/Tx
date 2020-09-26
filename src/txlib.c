@@ -58,7 +58,7 @@ int tx_freeStack(tx_Stack *i){
 
 TValue *newtable(TValue *i){
     if(!i)
-        vm_error(" null table");
+        vm_error("null table");
     i->value.table = tx_mallocz(HASH_SIZE * sizeof(void *));
 }
 

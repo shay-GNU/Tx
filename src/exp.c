@@ -314,7 +314,7 @@ void gen_invoke(int nb_args){
 		}else if((optop->type.t & T_VALMASK) == T_LOCAL){
 
 		}else{
-			//tx_cerror("�޷�ȷ��������");
+			
 		}
         operand_pop(); 
 	}

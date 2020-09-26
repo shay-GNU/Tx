@@ -55,15 +55,15 @@ typedef struct String{
 typedef int (*lua_CFunction) (struct tx_State *L);
 
 typedef union Value {
-  void *p;          /* light userdata */
-  char b;            /* booleans */
-  lua_CFunction f; /* light C functions */
-  double n;           /* numbers */
+  void *p;          
+  char b;            
+  lua_CFunction f; 
+  double n;           
   String *str;
   int64_t num;
   struct{
-    struct hashtable **table;//
-    struct hashtable *hash_next;//用于记录表分配的hash值.销毁hash表时用到,
+    struct hashtable **table;
+    struct hashtable *hash_next;
   };
 }Value;
 

@@ -102,11 +102,11 @@ int parameter_type_list(Type *type){
 		if(tok == TOK_DOTS){
 			if(i == 0){
 				
-				tx_cerror("���δʵ��");
+				tx_cerror("���δʵ��?");
 				next();
 				break;
 			}else{
-				tx_cerror("��δ���");
+				tx_cerror("��δ���?");
 			}
 		}
         i++;
@@ -161,7 +161,7 @@ int type_size(Type *t, int *a)
 		*a = 1;
 		return 1;
 	default:
-        tx_cerror("δʶ������ʹ�С");
+        tx_cerror("δʶ������ʹ��?");
 	}
 }
 
@@ -371,7 +371,7 @@ void gen_prolog(Type *func_type){
     while(sym){
 		type = &sym->type;
 		sym_push(sym->v &(~SC_PARAMS) , type,
-                 T_LOCAL | T_LVAL, allocReg(sec_text));//参数偏移
+                 T_LOCAL | T_LVAL, allocReg(sec_text));
 		n = sym->v;
 		i++;
 		sym = sym->next;
@@ -494,7 +494,7 @@ static void block(int *bsym, int *csym){
 		
     }else if (tok == '{'){
 		Symbol *s;
-		s = (Symbol*)stack_get_top(&local_sym_stack);
+		s = local_sym_stack;
 		syntax_level++;
         next();
         while (tok != '}') {
@@ -509,7 +509,7 @@ static void block(int *bsym, int *csym){
 			}
         }
         syntax_level--;	
-		sym_pop(&local_sym_stack, s);
+		sym_pop(&local_sym_stack, s, 0);
         next();
     }else if (tok == TOK_RETURN){
 		i = 0;
@@ -559,7 +559,7 @@ static void block(int *bsym, int *csym){
 		next();
         skip('(');
         Symbol *s;
-		s = (Symbol*)stack_get_top(&local_sym_stack);
+		s = local_sym_stack;
         syntax_level++;
         if (tok != ';') {
             if (!decl0(T_LOCAL, 1, NULL)) {
@@ -591,7 +591,7 @@ static void block(int *bsym, int *csym){
         gsym(a);
         gsym_addr(b, c);
         syntax_level--;
-        sym_pop(&local_sym_stack, s);
+        sym_pop(&local_sym_stack, s, 0);
     } else if (tok == TOK_SWITCH) {
     } else if (tok == TOK_CASE) {
     } else if (tok == TOK_DEFAULT) {
@@ -640,10 +640,10 @@ static void block(int *bsym, int *csym){
 
 
 void genfunc(Symbol *sym, int argn){
-    sym_direct_push(&local_sym_stack, SC_ANOM, &int_type, 0);
+    sym_push2(&local_sym_stack, SC_ANOM, int_type.t, 0);
 	gen_prolog(&sym->type);
     block(NULL,NULL); 
-	sym_pop(&local_sym_stack, NULL); 
+	sym_pop(&local_sym_stack, NULL, 0); 
 }
 
 

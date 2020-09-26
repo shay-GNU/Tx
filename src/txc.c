@@ -1,11 +1,14 @@
 #include "tx.h"
 #include "txc.h"
+<<<<<<< HEAD
 #include "txclib.c"
 
+=======
+>>>>>>> symbol pool
 
 static const char tx_help[] =
     "TX Compiler "TX_VERSIONS" \n"
-    "Usage: tx [options...] [-o filename] ...\n"
+    "Usage: tx [options...] file\n"
     "-v :tx version\n"
     "-o :output filename\n"
     "-h :tx option help\n"
@@ -23,7 +26,7 @@ int complie_parse_args(tx_Complie *t, int n, char **args){
                 case 'o':
                     if(str[2] != '\0') goto error;
                     if(i +1 >= n)
-                        tx_error("option -o ȱ�ٲ���");
+                        tx_error("no input file\n");
                     i++;
                     t->outName = args[i];
                     break;
@@ -33,16 +36,16 @@ int complie_parse_args(tx_Complie *t, int n, char **args){
                     exit(0);
                 case 'h':
                     if(str[2] != '\0') goto error;
-                help:
+            help:
                     printf(tx_help);
                     exit(0);
                 default:
-                error:
-                    tx_error("not parse option \"%s\"\ninput -h(help)",str);
+            error:
+                    tx_error("unrecognized command line option \"%s\"",str);
             }
         }else{
             if(t->filename){
-                tx_error("ֻ�ܷ���һ���ļ�");
+                tx_error("error files");
             }else{
                 t->filename = args[i];
             }
