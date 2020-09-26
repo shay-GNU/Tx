@@ -1,10 +1,5 @@
 #include "tx.h"
 #include "txc.h"
-<<<<<<< HEAD
-#include "txclib.c"
-
-=======
->>>>>>> symbol pool
 
 static const char tx_help[] =
     "TX Compiler "TX_VERSIONS" \n"

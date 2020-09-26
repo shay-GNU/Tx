@@ -264,11 +264,7 @@ void tx_read(BufferedFile *bf){
 TX_FUNC int tx_complie(tx_Complie *s){
 	
     if(!tx_open(s, s->filename))
-<<<<<<< HEAD
-        tx_error("file not open");
-=======
         tx_error("%s:No such file or directory",s->filename);
->>>>>>> symbol pool
     tx_read(file);
     next();
 
